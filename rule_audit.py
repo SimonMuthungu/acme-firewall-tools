@@ -44,6 +44,61 @@ def load_rules(filepath):
             rules.append(rule)
     return rules
 
+
+import ipaddress
+
+def check_shadowed(rules):
+    shadowed_rules = []
+    
+    for i, current_rule in enumerate(rules):
+        # Only check ALLOW rules
+        if current_rule.action.upper() != "ALLOW":
+            continue
+            
+        # Look at all the rules above this one
+        for earlier_rule in rules[:i]:
+            if earlier_rule.action.upper() != "ALLOW":
+                continue
+                
+            # 1. Check if the earlier rule has a broader (or equal) port
+            port_match = False
+            if earlier_rule.port == "ANY" or earlier_rule.port == current_rule.port:
+                port_match = True
+                
+            # 2. Check if the earlier rule's source contains the current source
+            source_match = False
+            if earlier_rule.source == "ANY" or earlier_rule.source == current_rule.source:
+                source_match = True
+            else:
+                try:
+                    # Using your warmup logic!
+                    earlier_net = ipaddress.ip_network(earlier_rule.source, strict=False)
+                    current_net = ipaddress.ip_network(current_rule.source, strict=False)
+                    if current_net.subnet_of(earlier_net):
+                        source_match = True
+                except ValueError:
+                    pass
+                    
+            # 3. Check if the earlier rule's destination contains the current destination
+            dest_match = False
+            if earlier_rule.destination == "ANY" or earlier_rule.destination == current_rule.destination:
+                dest_match = True
+            else:
+                try:
+                    earlier_dest = ipaddress.ip_network(earlier_rule.destination, strict=False)
+                    current_dest = ipaddress.ip_network(current_rule.destination, strict=False)
+                    if current_dest.subnet_of(earlier_dest):
+                        dest_match = True
+                except ValueError:
+                    pass
+                    
+            # If all 3 match, the rule is shadowed!
+            if source_match and dest_match and port_match:
+                shadowed_rules.append(current_rule.priority)
+                break # No need to check further up
+                
+    return shadowed_rules
+
 def audit_rules(rules):
     findings = []
     
@@ -85,13 +140,15 @@ def audit_rules(rules):
     return findings
 
 if __name__ == "__main__":
-    # Load the rules
     rules = load_rules("data/acme_rules.csv")
     
-    # Run the audit
-    findings = audit_rules(rules)
-    
-    # Print a readable summary
     print("--- Rule Audit Summary ---")
+    findings = audit_rules(rules)
     for finding in findings:
         print(f"Rule {finding['priority']}: {finding['flags']}")
+        
+    # Add the shadowed check
+    shadowed = check_shadowed(rules)
+    if shadowed:
+        for rule_id in shadowed:
+            print(f"Rule {rule_id}: ['SHADOWED']")
