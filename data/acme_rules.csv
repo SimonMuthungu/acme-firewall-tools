@@ -1,0 +1,8 @@
+priority,source,destination,protocol,port,action,logging,comment,hits_14d_business_hours
+1,10.0.0.0/8,192.168.1.0/24,TCP,443,ALLOW,yes,Core corporate-to-app access,52140
+2,10.0.0.15/32,192.168.1.10/32,TCP,22,ALLOW,yes,Named SSH access admin workstation,138
+3,10.0.0.0/24,192.168.1.0/24,TCP,443,ALLOW,no,Finance troubleshooting ticket,0
+4,203.0.113.45/32,192.168.1.5/32,TCP,8443,ALLOW,yes,Vendor nightly data feed,0
+5,10.0.0.0/8,192.168.0.0/16,TCP,8080-8090,ALLOW,no,Legacy reporting tool (used 8085 only),97
+6,10.0.0.99/32,192.168.1.20/32,TCP,3389,ALLOW,no,RDP to decommissioned jump host,0
+7,ANY,ANY,ANY,ANY,DENY,no,Default deny,3215
