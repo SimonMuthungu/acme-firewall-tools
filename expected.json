@@ -1,5 +1,5 @@
 {
     "22": "OPEN",
-    "80": "FILTERED",
-    "443": "FILTERED"
+    "80": "CLOSED",
+    "443": "CLOSED"
 }
