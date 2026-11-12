@@ -3,7 +3,7 @@ from warmup import in_network
 
 def test_ip_inside_network():
     # Testing a valid IP inside the /24 range
-    assert in_network("192.168.1.5", "192.168.1.0/24") is False
+    assert in_network("192.168.1.5", "192.168.1.0/24") is True
 
 def test_ip_outside_network():
     # Testing an IP from a different network
