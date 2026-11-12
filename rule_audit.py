@@ -1,6 +1,7 @@
 import csv
 from dataclasses import dataclass
 
+
 @dataclass
 class Rule:
     priority: int
@@ -46,6 +47,7 @@ def load_rules(filepath):
 
 
 import ipaddress
+
 
 def check_shadowed(rules):
     shadowed_rules = []

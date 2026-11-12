@@ -1,0 +1,5 @@
+--- Rule Audit Summary ---
+Rule 3: ['NO_LOGGING']
+Rule 5: ['NO_LOGGING', 'WIDE_PORT_RANGE']
+Rule 6: ['INSECURE_PORT', 'NO_LOGGING']
+Rule 3: ['SHADOWED']

@@ -1,6 +1,7 @@
-import socket
 import json
+import socket
 import sys
+
 
 def check_port(host, port):
     # Create a TCP socket
@@ -10,7 +11,7 @@ def check_port(host, port):
     try:
         s.connect((host, int(port)))
         return "OPEN"
-    except socket.timeout:
+    except TimeoutError:
         return "FILTERED" # No answer (firewall dropped it)
     except ConnectionRefusedError:
         return "CLOSED" # Server actively rejected it

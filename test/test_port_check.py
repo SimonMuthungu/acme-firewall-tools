@@ -1,5 +1,6 @@
 from port_check import compare_port
 
+
 def test_compare_port_pass():
     # If expected matches actual, it should return a string containing "PASS"
     result = compare_port("22", "OPEN", "OPEN")

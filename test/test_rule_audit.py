@@ -1,5 +1,6 @@
 import pytest
-from rule_audit import parse_port, Rule, audit_rules, check_shadowed, load_rules
+
+from rule_audit import Rule, audit_rules, check_shadowed, load_rules, parse_port
 
 # --- Step 1: Port range parsing ---
 
@@ -12,7 +13,6 @@ def test_parse_port_range():
     assert parse_port("8080-8090") == (8080, 8090)
 
 
-    from rule_audit import Rule, audit_rules
 
 # --- Step 2: Flag Testing (Parameterized) ---
 
