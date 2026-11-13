@@ -1,6 +1,5 @@
 import csv
 from dataclasses import dataclass
-import csv
 
 
 @dataclass

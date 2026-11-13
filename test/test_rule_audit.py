@@ -1,8 +1,15 @@
+import os
+
 import pytest
 
-from rule_audit import Rule, audit_rules, check_shadowed, load_rules, parse_port
-from rule_audit import save_to_csv
-import os
+from rule_audit import (
+    Rule,
+    audit_rules,
+    check_shadowed,
+    load_rules,
+    parse_port,
+    save_to_csv,
+)
 
 # --- Step 1: Port range parsing ---
 
