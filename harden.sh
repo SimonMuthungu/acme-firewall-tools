@@ -27,6 +27,7 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # NOTE: You will change "10.0.0.99" to your Docker container's IP during testing
 ADMIN_IP="10.0.0.99"
 iptables -A INPUT -p tcp --dport 22 -s $ADMIN_IP -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s 172.16.50.0/24 -j ACCEPT
 
 # 6. Allow HTTPS (Port 443) from anywhere
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT

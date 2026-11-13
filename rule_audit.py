@@ -1,5 +1,6 @@
 import csv
 from dataclasses import dataclass
+import csv
 
 
 @dataclass
@@ -141,6 +142,16 @@ def audit_rules(rules):
             
     return findings
 
+def save_to_csv(findings, filename="audit_report.csv"):
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        # Write the header
+        writer.writerow(["Rule Priority", "Flags"])
+        # Write the data
+        for finding in findings:
+            writer.writerow([finding["priority"], ", ".join(finding["flags"])])
+    print(f"Report saved to {filename}")
+
 if __name__ == "__main__":
     rules = load_rules("data/acme_rules.csv")
     
@@ -154,3 +165,5 @@ if __name__ == "__main__":
     if shadowed:
         for rule_id in shadowed:
             print(f"Rule {rule_id}: ['SHADOWED']")
+
+    save_to_csv(findings) 

@@ -1,6 +1,8 @@
 import pytest
 
 from rule_audit import Rule, audit_rules, check_shadowed, load_rules, parse_port
+from rule_audit import save_to_csv
+import os
 
 # --- Step 1: Port range parsing ---
 
@@ -82,3 +84,19 @@ def test_malformed_csv_raises_error(tmp_path):
     # Assert that it raises a ValueError (clean error) instead of crashing randomly
     with pytest.raises(ValueError):
         load_rules(str(bad_csv))
+        
+
+def test_csv_output(tmp_path):
+    # Create a fake finding
+    findings = [{"priority": 1, "flags": ["NO_LOGGING"]}]
+    
+    # Save it to a temporary file
+    test_file = tmp_path / "test_report.csv"
+    save_to_csv(findings, str(test_file))
+    
+    # Check that the file was created and has the right text
+    assert os.path.exists(test_file)
+    with open(test_file, "r") as f:
+        content = f.read()
+        assert "Rule Priority,Flags" in content
+        assert "1,NO_LOGGING" in content

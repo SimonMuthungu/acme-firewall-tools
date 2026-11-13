@@ -1,5 +1,6 @@
 {
     "22": "OPEN",
     "80": "CLOSED",
-    "443": "CLOSED"
+    "443": "CLOSED",
+    "9443": "OPEN"
 }
